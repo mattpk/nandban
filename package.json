@@ -1,0 +1,11 @@
+{
+  "name": "nandban",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodejs ./bin/www"
+  },
+  "dependencies": {
+    "express": "~4.0.0"
+  }
+}
