@@ -69,6 +69,7 @@ function init() {
     window.onresize = fitCanvas;
     document.addEventListener("keypress", keyPressHandler, false);
     fitCanvas();
+    renderUi();
 }
 
 init();
