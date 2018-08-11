@@ -12,7 +12,6 @@ Space to place / remove Jets.
 
 ### Placing jets:
 ![Placing jets](https://mattpk.github.io/nandban/place.gif)
-*image*
 
 ### AND Gate:
 ![And gate](https://mattpk.github.io/nandban/andgate.gif)
