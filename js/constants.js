@@ -25,4 +25,4 @@ const Direction = {
 }
 
 // game
-const GAME_TICK = 100;
+const GAME_TICK = 50;

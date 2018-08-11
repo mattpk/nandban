@@ -11,19 +11,19 @@ Space to place / remove Jets.
 ## Examples
 
 ### Placing jets:
-![Placing jets](https://mattpk.github.io/nandban/place.gif)
+![Placing jets](https://mattpk.github.io/nandban/gifs/place.gif)
 
 ### AND Gate:
-![And gate](https://mattpk.github.io/nandban/andgate.gif)
+![And gate](https://mattpk.github.io/nandban/gifs/andgate.gif)
 
 ### XOR Gate:
-![XOR gate](https://mattpk.github.io/nandban/xor.gif)
+![XOR gate](https://mattpk.github.io/nandban/gifs/xor.gif)
 
 ### SR Latch:
-![SR Latch](https://mattpk.github.io/nandban/srlatch.gif)
+![SR Latch](https://mattpk.github.io/nandban/gifs/srlatch.gif)
 
 ### Half Adder:
-![Half Adder](https://mattpk.github.io/nandban/halfadder.gif)
+![Half Adder](https://mattpk.github.io/nandban/gifs/halfadder.gif)
 
 ### Full Adder:
-![Full Adder](https://mattpk.github.io/nandban/fulladder.gif)
+![Full Adder](https://mattpk.github.io/nandban/gifs/fulladder.gif)
