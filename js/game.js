@@ -31,6 +31,7 @@ function fitCanvas() {
         canvas.width = document.body.clientWidth;
         canvas.height = document.body.clientHeight;    
     });
+    drawBackground();
 }
 
 function keyPressHandler(event) {
@@ -84,7 +85,6 @@ function init() {
     window.onresize = fitCanvas;
     document.addEventListener("keydown", keyPressHandler, false);
     fitCanvas();
-    drawBackground();
     renderUi();
     gameLoop();
 }
