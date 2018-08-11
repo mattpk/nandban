@@ -1,5 +1,9 @@
 function gameLoop() {
-    window.requestAnimationFrame(gameLoop);
+    calculateLasers();
+    renderUi();
+    drawJets();
+    drawLasers();
+    setTimeout(() => window.requestAnimationFrame(gameLoop), GAME_TICK);
 }
 
 // TODO make the cursor a ghost of what it will place
@@ -27,39 +31,50 @@ function fitCanvas() {
         canvas.width = document.body.clientWidth;
         canvas.height = document.body.clientHeight;    
     });
-    drawBackground();
 }
 
 function keyPressHandler(event) {
-    switch(event.keyCode) {
-        case 37:
-            leftPressed(); break;
-        case 38:
-            upPressed(); break;
-        case 39:
-            rightPressed(); break;
-        case 40:
-            downPressed(); break;
+    switch(event.code) {
+        case 'Space':
+            toggleJetAtCursor();
+            drawJets();
+            break;
+        case 'KeyA':
+        case 'ArrowLeft':
+            cursorLeft();
+            break;
+        case 'KeyW':
+        case 'ArrowUp':
+            cursorUp();
+            break;
+        case 'KeyD':
+        case 'ArrowRight':
+            cursorRight();
+            break;
+        case 'KeyS':
+        case 'ArrowDown':
+            cursorDown();
+            break;
     }
     cursor.render();
 }
 
-function leftPressed() {
+function cursorLeft() {
     cursor.col -= 1;
     cursor.direction = Direction.LEFT;
 }
 
-function upPressed() {
+function cursorUp() {
     cursor.row -= 1;
     cursor.direction = Direction.UP;
 }
 
-function rightPressed() {
+function cursorRight() {
     cursor.col += 1;
     cursor.direction = Direction.RIGHT;
 }
 
-function downPressed() {
+function cursorDown() {
     cursor.row += 1;
     cursor.direction = Direction.DOWN;
 }
@@ -67,9 +82,11 @@ function downPressed() {
 function init() {
     // event listeners
     window.onresize = fitCanvas;
-    document.addEventListener("keypress", keyPressHandler, false);
+    document.addEventListener("keydown", keyPressHandler, false);
     fitCanvas();
+    drawBackground();
     renderUi();
+    gameLoop();
 }
 
 init();

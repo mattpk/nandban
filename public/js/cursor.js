@@ -2,7 +2,7 @@ let cursor = {row: 0, col: 0, direction: Direction.RIGHT};
 
 cursor.render = function() {
     const legLen = TILE_SIZE / 6;
-    const tickLen = legLen / 2;
+    const tickLen = legLen;
     const halfTile = TILE_SIZE / 2;
     let x = this.col * TILE_SIZE;
     let y = this.row * TILE_SIZE;
@@ -33,20 +33,20 @@ cursor.render = function() {
     // direction tick
     switch(this.direction) {
         case Direction.LEFT:
-            uiCtx.moveTo(x - tickLen, y + halfTile);
+            uiCtx.moveTo(x, y + halfTile);
             uiCtx.lineTo(x + tickLen, y + halfTile);
             break;
         case Direction.UP:
-            uiCtx.moveTo(x + halfTile, y - tickLen);
+            uiCtx.moveTo(x + halfTile, y);
             uiCtx.lineTo(x + halfTile, y + tickLen);
             break;
         case Direction.RIGHT:
             uiCtx.moveTo(x + TILE_SIZE - tickLen, y + halfTile);
-            uiCtx.lineTo(x + TILE_SIZE + tickLen, y + halfTile);
+            uiCtx.lineTo(x + TILE_SIZE, y + halfTile);
             break;
         case Direction.DOWN:
             uiCtx.moveTo(x + halfTile, y + TILE_SIZE - tickLen);
-            uiCtx.lineTo(x + halfTile, y + TILE_SIZE + tickLen);
+            uiCtx.lineTo(x + halfTile, y + TILE_SIZE);
             break;
     }
 

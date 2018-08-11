@@ -1,5 +1,9 @@
+const JETS_PER_TILE = 2;
 const TILE_SIZE = 32;
+const NUM_ROWS = Math.ceil(document.body.clientHeight / TILE_SIZE);
+const NUM_COLS = Math.ceil(document.body.clientWidth / TILE_SIZE);
 const CURSOR_COLOR = '#BE90D4';
+const LASER_COLOR = 'blue';
 
 // canvases
 const uiCanvas = document.getElementById("ui-layer");
@@ -12,7 +16,7 @@ const canvases = [uiCanvas, effectCanvas, entityCanvas, backgroundCanvas];
 const uiCtx = uiCanvas.getContext("2d");
 const effectCtx = effectCanvas.getContext("2d");
 const entityCtx = entityCanvas.getContext("2d");
-const backgroundCtx = entityCanvas.getContext("2d");
+const backgroundCtx = backgroundCanvas.getContext("2d");
 
 // global enums
 const Direction = {
@@ -21,3 +25,6 @@ const Direction = {
     RIGHT: 2,
     DOWN: 3
 }
+
+// game
+const GAME_TICK = 100;
