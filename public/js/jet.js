@@ -56,8 +56,8 @@ class Jet {
         col += colDelta;
         while(row >= 0 && col >= 0 && row < NUM_ROWS && col < NUM_COLS) {
             let jet = getJets(row, col);
-            if (jet.length) {
-                return {row: jet[0].row, col: jet[0].col};
+            if (jet.length > 0) {
+                break;
             }
             row += rowDelta;
             col += colDelta;
@@ -76,10 +76,7 @@ class Jet {
 }
 
 function numJets(row, col) {
-    if (jetMap.has(row) && jetMap.get(row).has(col)) {
-        return jetMap.get(row).get(col).length;
-    }
-    return 0;
+    return getJets(row, col).length;
 }
 
 // array of jets
@@ -111,7 +108,7 @@ function addJet(row, col, direction) {
 }
 
 function toggleJet(row, col, direction) {
-    if (numJets(row, col) >= 2) {
+    if (getJets(row, col).find((jet) => jet.direction === direction)) {
         removeJets(row, col);
     } else {
         addJet(row, col, direction);
