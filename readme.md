@@ -21,3 +21,9 @@ Space to place / remove Jets.
 
 ### SR Latch:
 ![SR Latch](https://mattpk.github.io/nandban/srlatch.gif)
+
+### Half Adder:
+![Half Adder](https://mattpk.github.io/nandban/halfadder.gif)
+
+### Full Adder:
+![Full Adder](https://mattpk.github.io/nandban/fulladder.gif)
