@@ -54,7 +54,7 @@ class Jet {
         }
         row += rowDelta;
         col += colDelta;
-        while(row >= 0 && col >= 0 && row < NUM_ROWS && col < NUM_COLS) {
+        while(row >= 0 && col >= 0 && row < numRows && col < numCols) {
             let jet = getJets(row, col);
             if (jet.length > 0) {
                 break;
@@ -95,7 +95,7 @@ function removeJets(row, col) {
 
 function addJet(row, col, direction) {
     if (row < 0 || col < 0 ||
-        row >= NUM_ROWS || col >= NUM_COLS) {
+        row >= numRows || col >= numCols) {
         return;
     }
     if (!jetMap.has(row)) {

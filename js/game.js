@@ -27,6 +27,8 @@ function drawBackground() {
 
 // fits canvas to window width and height
 function fitCanvas() {
+    numRows = Math.ceil(document.body.clientHeight / TILE_SIZE);
+    numCols = Math.ceil(document.body.clientWidth / TILE_SIZE);
     canvases.forEach(function(canvas) {
         canvas.width = document.body.clientWidth;
         canvas.height = document.body.clientHeight;    

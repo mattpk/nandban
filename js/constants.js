@@ -1,7 +1,5 @@
 const JETS_PER_TILE = 2;
 const TILE_SIZE = 32;
-const NUM_ROWS = Math.ceil(document.body.clientHeight / TILE_SIZE);
-const NUM_COLS = Math.ceil(document.body.clientWidth / TILE_SIZE);
 const CURSOR_COLOR = '#BE90D4';
 const LASER_COLOR = 'blue';
 

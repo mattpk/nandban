@@ -1,3 +1,5 @@
+let numRows;
+let numCols;
 let cursor = {row: 0, col: 0, direction: Direction.RIGHT};
 
 cursor.render = function() {
