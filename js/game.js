@@ -82,6 +82,35 @@ function cursorDown() {
     cursor.direction = Direction.DOWN;
 }
 
+
+function importFromString(jsonString) {
+    jetMap.clear();
+    let entries = JSON.parse(jsonString);
+    entries.forEach((entry) => {
+        let jet = new Jet(entry.row, entry.col, entry.direction);
+        jet.firing = entry.firing;
+        jet.hit = entry.hit;
+        if (!jetMap.has(entry.row, entry.col)) {
+            jetMap.set(entry.row, entry.col, []);
+        }
+        jetMap.get(entry.row, entry.col).push(jet);
+    });
+}
+
+function exportToString() {
+    let json = [];
+    forEachJet((jet) => {
+        json.push({
+            row: jet.row,
+            col: jet.col,
+            hit: jet.hit,
+            direction: jet.direction,
+            firing: jet.firing,
+        });
+    });
+    return JSON.stringify(json);
+}
+
 function init() {
     // event listeners
     window.onresize = fitCanvas;

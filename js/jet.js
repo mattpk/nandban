@@ -1,7 +1,7 @@
 // A Jet is a block that shoots lasers and can be hit by lasers.
 
 // map of row -> map of col -> array of jets
-const jetMap = new Map();
+const jetMap = new Map2D();
 
 class Jet {
     constructor(row, col, direction) {
@@ -81,16 +81,14 @@ function numJets(row, col) {
 
 // array of jets
 function getJets(row, col) {
-    if (jetMap.has(row) && jetMap.get(row).has(col)) {
-        return jetMap.get(row).get(col);
+    if (jetMap.has(row, col)) {
+        return jetMap.get(row, col);
     }
     return [];
 }
 
 function removeJets(row, col) {
-    if (jetMap.has(row)) {
-        jetMap.get(row).delete(col)
-    }
+    jetMap.set(row, col, []);
 }
 
 function addJet(row, col, direction) {
@@ -98,13 +96,10 @@ function addJet(row, col, direction) {
         row >= numRows || col >= numCols) {
         return;
     }
-    if (!jetMap.has(row)) {
-        jetMap.set(row, new Map());
+    if (!jetMap.has(row, col)) {
+        jetMap.set(row, col, []);
     }
-    if (!jetMap.get(row).has(col)) {
-        jetMap.get(row).set(col, []);
-    }
-    jetMap.get(row).get(col).push(new Jet(row, col, direction));
+    jetMap.get(row, col).push(new Jet(row, col, direction));
 }
 
 function toggleJet(row, col, direction) {
@@ -120,7 +115,7 @@ function toggleJetAtCursor() {
 }
 
 function forEachJet(callback) {
-    jetMap.forEach((colMap) => {
+    jetMap.map.forEach((colMap) => {
         colMap.forEach((jetList) => {
             jetList.forEach(callback);
         });

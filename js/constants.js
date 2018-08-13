@@ -26,3 +26,32 @@ const Direction = {
 
 // game
 const GAME_TICK = 50;
+
+// data structures
+class Map2D {
+    constructor() {
+        this.map = new Map();
+    }
+
+    has(x, y) {
+        return this.map.has(x) && this.map.get(x).has(y);
+    }
+
+    get(x, y) {
+        if (this.has(x, y)) {
+            return this.map.get(x).get(y);
+        }
+        return null;
+    }
+
+    set(x, y, thing) {
+        if (!this.map.has(x)) {
+            this.map.set(x, new Map());
+        }
+        this.map.get(x).set(y, thing);
+    }
+
+    clear() {
+        this.map = new Map();
+    }
+}
