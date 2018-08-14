@@ -28,5 +28,8 @@ Space to place / remove Jets.
 ### Full Adder:
 ![Full Adder](https://mattpk.github.io/nandban/gifs/fulladder.gif)
 
-### 7 Bit Adder (45 + 110):
+### 7 Bit Adder:
+
+Demonstrating adding 0101101<sub>2</sub> + 1101110<sub>2</sub> = 10011011<sub>2</sub>
+(45 + 110 == 155)
 ![7 Bit Adder](https://mattpk.github.io/nandban/gifs/7bitadder.gif)
