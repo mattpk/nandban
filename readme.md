@@ -31,5 +31,5 @@ Space to place / remove Jets.
 ### 7 Bit Adder:
 
 Demonstrating adding 0101101<sub>2</sub> + 1101110<sub>2</sub> = 10011011<sub>2</sub>
-(45 + 110 == 155)
+(45 + 110 = 155)
 ![7 Bit Adder](https://mattpk.github.io/nandban/gifs/7bitadder.gif)
