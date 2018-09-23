@@ -20,7 +20,9 @@ cursor.render = function(viewSettings) {
     uiCtx.clearRect(0, 0, uiCanvas.width, uiCanvas.height);
     uiCtx.beginPath();
 
-    if (this.mode == CursorMode.SELECT || this.mode == CursorMode.SELECTED) {
+    if (this.mode == CursorMode.SELECT
+        || this.mode == CursorMode.SELECTED
+        || this.mode == CursorMode.YANKED) {
 
         if (this.mode == CursorMode.SELECT) {
             uiCtx.strokeStyle = SELECT_COLOR;
@@ -30,10 +32,12 @@ cursor.render = function(viewSettings) {
         }
         uiCtx.lineWidth = 1;
 
-        let r1 = Math.min(this.rowSelectBegin, this.rowSelectEnd) - viewSettings.rowOffset;
-        let c1 = Math.min(this.colSelectBegin, this.colSelectEnd) - viewSettings.colOffset;
-        let r2 = Math.max(this.rowSelectBegin, this.rowSelectEnd) - viewSettings.rowOffset + 1;
-        let c2 = Math.max(this.colSelectBegin, this.colSelectEnd) - viewSettings.colOffset + 1;
+        let box = this.getSelection();
+        let r1 = box.r1 - viewSettings.rowOffset;
+        let c1 = box.c1 - viewSettings.colOffset;
+        let r2 = box.r2 - viewSettings.rowOffset;
+        let c2 = box.c2 - viewSettings.colOffset;
+
         let x1 = c1 * TILE_SIZE;
         let y1 = r1 * TILE_SIZE;
         let x2 = c2 * TILE_SIZE;
@@ -45,6 +49,26 @@ cursor.render = function(viewSettings) {
         uiCtx.lineTo(x1-1,y2+1);
         uiCtx.lineTo(x1-1,y1-1);
         uiCtx.stroke();
+        if (this.mode == CursorMode.YANKED) {
+            uiCtx.strokeStyle = PASTE_BOX_COLOR;
+            let nr1 = r1 + cursor.row - box.r1;
+            let nc1 = c1 + cursor.col - box.c1;
+            let nr2 = r2 + cursor.row - box.r1;
+            let nc2 = c2 + cursor.col - box.c1;
+
+            let x1 = nc1 * TILE_SIZE;
+            let y1 = nr1 * TILE_SIZE;
+            let x2 = nc2 * TILE_SIZE;
+            let y2 = nr2 * TILE_SIZE;
+
+            uiCtx.beginPath();
+            uiCtx.moveTo(x1-1,y1-1);
+            uiCtx.lineTo(x2+1,y1-1);
+            uiCtx.lineTo(x2+1,y2+1);
+            uiCtx.lineTo(x1-1,y2+1);
+            uiCtx.lineTo(x1-1,y1-1);
+            uiCtx.stroke();
+        }
     }
 
     uiCtx.beginPath();
@@ -130,5 +154,19 @@ cursor.update = function(dir) {
     if (this.mode == CursorMode.SELECT) {
         this.rowSelectEnd = this.row;
         this.colSelectEnd = this.col;
+    }
+}
+
+cursor.getSelection = function() {
+    let r1 = Math.min(this.rowSelectBegin, this.rowSelectEnd);
+    let c1 = Math.min(this.colSelectBegin, this.colSelectEnd);
+    let r2 = Math.max(this.rowSelectBegin, this.rowSelectEnd) + 1;
+    let c2 = Math.max(this.colSelectBegin, this.colSelectEnd) + 1;
+    return {r1: r1, c1: c1, r2: r2, c2: c2};
+}
+
+cursor.yanked = function() {
+    if (this.mode == CursorMode.SELECT) {
+        this.mode = CursorMode.YANKED;
     }
 }

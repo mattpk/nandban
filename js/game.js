@@ -1,4 +1,5 @@
 let viewSettings = {rowOffset: 0, colOffset: 0};
+let yanked = [];
 
 function gameLoop() {
     calculateLasers();
@@ -72,6 +73,12 @@ function keyPressHandler(event) {
         case 'KeyV':
             cursor.toggleSelect();
             break;
+        case 'KeyY':
+            yank();
+            break;
+        case 'KeyP':
+            paste();
+            break;
         case 'Escape':
             cursor.normalMode();
             break;
@@ -94,6 +101,37 @@ function updateOffset(dir) {
           viewSettings.rowOffset += 1;
           break;
     }
+}
+
+function yank() {
+    yanked = [];
+    if (cursor.mode == CursorMode.NORMAL)
+        return;
+    let box = cursor.getSelection();
+    cursor.yanked();
+    forEachJet((jet) => {
+        if (box.r1 <= jet.row && jet.row < box.r2
+            && box.c1 <= jet.col && jet.col < box.c2) {
+            yanked.push({row: jet.row-box.r1, col: jet.col-box.c1, direction: jet.direction});
+        }
+    });
+}
+
+function paste() {
+    if (cursor.mode != CursorMode.YANKED) {
+        return;
+    }
+    let r;
+    let c;
+    let box = cursor.getSelection();
+    for (r = cursor.row; r < cursor.row + box.r2 - box.r1; ++r) {
+        for (c = cursor.col; c < cursor.col + box.c2 - box.c1; ++c) {
+            removeJets(r, c);
+        }
+    }
+    yanked.forEach((jetInfo) => {
+         addJet(jetInfo.row + cursor.row, jetInfo.col + cursor.col, jetInfo.direction);
+    });
 }
 
 function importFromString(jsonString) {
