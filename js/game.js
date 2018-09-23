@@ -58,28 +58,38 @@ function keyPressHandler(event) {
         case 'ArrowDown':
             cursorDown();
             break;
+        case 'KeyR':
+            cursorSelectMode();
+            break;
+        case 'KeyT':
+            cursorNormalMode();
+            break;
     }
     cursor.render();
 }
 
+function cursorSelectMode() {
+    cursor.toggleSelect();
+}
+
+function cursorNormalMode() {
+    cursor.normalMode();
+}
+
 function cursorLeft() {
-    cursor.col -= 1;
-    cursor.direction = Direction.LEFT;
+    cursor.update(Direction.LEFT)
 }
 
 function cursorUp() {
-    cursor.row -= 1;
-    cursor.direction = Direction.UP;
+    cursor.update(Direction.UP);
 }
 
 function cursorRight() {
-    cursor.col += 1;
-    cursor.direction = Direction.RIGHT;
+    cursor.update(Direction.RIGHT);
 }
 
 function cursorDown() {
-    cursor.row += 1;
-    cursor.direction = Direction.DOWN;
+    cursor.update(Direction.DOWN);
 }
 
 
