@@ -1,14 +1,16 @@
+let viewSettings = {rowOffset: 0, colOffset: 0};
+
 function gameLoop() {
     calculateLasers();
-    renderUi();
-    drawJets();
-    drawLasers();
+    renderUi(viewSettings);
+    drawJets(viewSettings);
+    drawLasers(viewSettings);
     setTimeout(() => window.requestAnimationFrame(gameLoop), GAME_TICK);
 }
 
 // TODO make the cursor a ghost of what it will place
-function renderUi() {
-    cursor.render();
+function renderUi(viewSettings) {
+    cursor.render(viewSettings);
 }
 
 function drawBackground() {
@@ -37,61 +39,62 @@ function fitCanvas() {
 }
 
 function keyPressHandler(event) {
+    let updateCursorOrOffset;
+    if (event.shiftKey) {
+        updateCursorOrOffset = updateOffset;
+    }
+    else {
+        updateCursorOrOffset = function(dir) {
+            cursor.update(dir);
+        }
+    }
     switch(event.code) {
         case 'Space':
             toggleJetAtCursor();
-            drawJets();
+            drawJets(viewSettings);
             break;
         case 'KeyA':
         case 'ArrowLeft':
-            cursorLeft();
+            updateCursorOrOffset(Direction.LEFT);
             break;
         case 'KeyW':
         case 'ArrowUp':
-            cursorUp();
+            updateCursorOrOffset(Direction.UP);
             break;
         case 'KeyD':
         case 'ArrowRight':
-            cursorRight();
+            updateCursorOrOffset(Direction.RIGHT);
             break;
         case 'KeyS':
         case 'ArrowDown':
-            cursorDown();
+            updateCursorOrOffset(Direction.DOWN);
             break;
-        case 'KeyR':
-            cursorSelectMode();
+        case 'KeyV':
+            cursor.toggleSelect();
             break;
-        case 'KeyT':
-            cursorNormalMode();
+        case 'Escape':
+            cursor.normalMode();
             break;
     }
-    cursor.render();
+    cursor.render(viewSettings);
 }
 
-function cursorSelectMode() {
-    cursor.toggleSelect();
+function updateOffset(dir) {
+    switch(dir) {
+      case Direction.LEFT:
+          viewSettings.colOffset -= 1;
+          break;
+      case Direction.UP:
+          viewSettings.rowOffset -= 1;
+          break;
+      case Direction.RIGHT:
+          viewSettings.colOffset += 1;
+          break;
+      case Direction.DOWN:
+          viewSettings.rowOffset += 1;
+          break;
+    }
 }
-
-function cursorNormalMode() {
-    cursor.normalMode();
-}
-
-function cursorLeft() {
-    cursor.update(Direction.LEFT)
-}
-
-function cursorUp() {
-    cursor.update(Direction.UP);
-}
-
-function cursorRight() {
-    cursor.update(Direction.RIGHT);
-}
-
-function cursorDown() {
-    cursor.update(Direction.DOWN);
-}
-
 
 function importFromString(jsonString) {
     jetMap.clear();
@@ -126,7 +129,6 @@ function init() {
     window.onresize = fitCanvas;
     document.addEventListener("keydown", keyPressHandler, false);
     fitCanvas();
-    renderUi();
     gameLoop();
 }
 

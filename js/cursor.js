@@ -8,12 +8,14 @@ let cursor = {
     rowSelectEnd: 0, colSelectEnd: 0
 };
 
-cursor.render = function() {
+cursor.render = function(viewSettings) {
     const legLen = TILE_SIZE / 6;
     const tickLen = legLen;
     const halfTile = TILE_SIZE / 2;
-    let x = this.col * TILE_SIZE;
-    let y = this.row * TILE_SIZE;
+    let col = this.col - viewSettings.colOffset
+    let row = this.row - viewSettings.rowOffset
+    let x = col * TILE_SIZE;
+    let y = row * TILE_SIZE;
 
     uiCtx.clearRect(0, 0, uiCanvas.width, uiCanvas.height);
     uiCtx.beginPath();
@@ -28,10 +30,10 @@ cursor.render = function() {
         }
         uiCtx.lineWidth = 1;
 
-        let r1 = Math.min(this.rowSelectBegin, this.rowSelectEnd);
-        let c1 = Math.min(this.colSelectBegin, this.colSelectEnd);
-        let r2 = Math.max(this.rowSelectBegin, this.rowSelectEnd) + 1;
-        let c2 = Math.max(this.colSelectBegin, this.colSelectEnd) + 1;
+        let r1 = Math.min(this.rowSelectBegin, this.rowSelectEnd) - viewSettings.rowOffset;
+        let c1 = Math.min(this.colSelectBegin, this.colSelectEnd) - viewSettings.colOffset;
+        let r2 = Math.max(this.rowSelectBegin, this.rowSelectEnd) - viewSettings.rowOffset + 1;
+        let c2 = Math.max(this.colSelectBegin, this.colSelectEnd) - viewSettings.colOffset + 1;
         let x1 = c1 * TILE_SIZE;
         let y1 = r1 * TILE_SIZE;
         let x2 = c2 * TILE_SIZE;
