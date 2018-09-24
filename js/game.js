@@ -1,14 +1,17 @@
+let viewSettings = {rowOffset: 0, colOffset: 0};
+let yanked = [];
+
 function gameLoop() {
     calculateLasers();
-    renderUi();
-    drawJets();
-    drawLasers();
+    renderUi(viewSettings);
+    drawJets(viewSettings);
+    drawLasers(viewSettings);
     setTimeout(() => window.requestAnimationFrame(gameLoop), GAME_TICK);
 }
 
 // TODO make the cursor a ghost of what it will place
-function renderUi() {
-    cursor.render();
+function renderUi(viewSettings) {
+    cursor.render(viewSettings);
 }
 
 function drawBackground() {
@@ -37,51 +40,99 @@ function fitCanvas() {
 }
 
 function keyPressHandler(event) {
+    let updateCursorOrOffset;
+    if (event.shiftKey) {
+        updateCursorOrOffset = updateOffset;
+    }
+    else {
+        updateCursorOrOffset = function(dir) {
+            cursor.update(dir);
+        }
+    }
     switch(event.code) {
         case 'Space':
             toggleJetAtCursor();
-            drawJets();
+            drawJets(viewSettings);
             break;
         case 'KeyA':
         case 'ArrowLeft':
-            cursorLeft();
+            updateCursorOrOffset(Direction.LEFT);
             break;
         case 'KeyW':
         case 'ArrowUp':
-            cursorUp();
+            updateCursorOrOffset(Direction.UP);
             break;
         case 'KeyD':
         case 'ArrowRight':
-            cursorRight();
+            updateCursorOrOffset(Direction.RIGHT);
             break;
         case 'KeyS':
         case 'ArrowDown':
-            cursorDown();
+            updateCursorOrOffset(Direction.DOWN);
+            break;
+        case 'KeyV':
+            cursor.toggleSelect();
+            break;
+        case 'KeyY':
+            yank();
+            break;
+        case 'KeyP':
+            paste();
+            break;
+        case 'Escape':
+            cursor.normalMode();
             break;
     }
-    cursor.render();
+    cursor.render(viewSettings);
 }
 
-function cursorLeft() {
-    cursor.col -= 1;
-    cursor.direction = Direction.LEFT;
+function updateOffset(dir) {
+    switch(dir) {
+      case Direction.LEFT:
+          viewSettings.colOffset -= 1;
+          break;
+      case Direction.UP:
+          viewSettings.rowOffset -= 1;
+          break;
+      case Direction.RIGHT:
+          viewSettings.colOffset += 1;
+          break;
+      case Direction.DOWN:
+          viewSettings.rowOffset += 1;
+          break;
+    }
 }
 
-function cursorUp() {
-    cursor.row -= 1;
-    cursor.direction = Direction.UP;
+function yank() {
+    yanked = [];
+    if (cursor.mode == CursorMode.NORMAL)
+        return;
+    let box = cursor.getSelection();
+    cursor.yanked();
+    forEachJet((jet) => {
+        if (box.r1 <= jet.row && jet.row < box.r2
+            && box.c1 <= jet.col && jet.col < box.c2) {
+            yanked.push({row: jet.row-box.r1, col: jet.col-box.c1, direction: jet.direction});
+        }
+    });
 }
 
-function cursorRight() {
-    cursor.col += 1;
-    cursor.direction = Direction.RIGHT;
+function paste() {
+    if (cursor.mode != CursorMode.YANKED) {
+        return;
+    }
+    let r;
+    let c;
+    let box = cursor.getSelection();
+    for (r = cursor.row; r < cursor.row + box.r2 - box.r1; ++r) {
+        for (c = cursor.col; c < cursor.col + box.c2 - box.c1; ++c) {
+            removeJets(r, c);
+        }
+    }
+    yanked.forEach((jetInfo) => {
+         addJet(jetInfo.row + cursor.row, jetInfo.col + cursor.col, jetInfo.direction);
+    });
 }
-
-function cursorDown() {
-    cursor.row += 1;
-    cursor.direction = Direction.DOWN;
-}
-
 
 function importFromString(jsonString) {
     jetMap.clear();
@@ -116,7 +167,6 @@ function init() {
     window.onresize = fitCanvas;
     document.addEventListener("keydown", keyPressHandler, false);
     fitCanvas();
-    renderUi();
     gameLoop();
 }
 

@@ -40,7 +40,7 @@ function calculateLasers() {
     forEachJet((jet) => jet.takeFutureState());
 }
 
-function drawLasers() {
+function drawLasers(viewSettings) {
     const halfTile = TILE_SIZE / 2;
 
     effectCtx.clearRect(0, 0, effectCanvas.width, effectCanvas.height);
@@ -48,10 +48,14 @@ function drawLasers() {
     effectCtx.lineWidth = 2;  
     effectCtx.beginPath();
     lasers.forEach((laser) => {
-        const sx = laser.startCol * TILE_SIZE + halfTile;
-        const sy = laser.startRow * TILE_SIZE + halfTile;
-        const ex = laser.endCol * TILE_SIZE + halfTile;
-        const ey = laser.endRow * TILE_SIZE + halfTile;
+        let sc = laser.startCol - viewSettings.colOffset;
+        let sr = laser.startRow - viewSettings.rowOffset;
+        let ec = laser.endCol - viewSettings.colOffset;
+        let er = laser.endRow - viewSettings.rowOffset;
+        const sx = sc * TILE_SIZE + halfTile;
+        const sy = sr * TILE_SIZE + halfTile;
+        const ex = ec * TILE_SIZE + halfTile;
+        const ey = er * TILE_SIZE + halfTile;
         effectCtx.moveTo(sx, sy);
         effectCtx.lineTo(ex, ey);
     });

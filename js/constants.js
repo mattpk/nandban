@@ -2,6 +2,9 @@ const JETS_PER_TILE = 2;
 const TILE_SIZE = 32;
 const CURSOR_COLOR = '#BE90D4';
 const LASER_COLOR = 'blue';
+const SELECT_COLOR = 'pink';
+const SELECTED_COLOR = 'red';
+const PASTE_BOX_COLOR = 'green';
 
 // canvases
 const uiCanvas = document.getElementById("ui-layer");
@@ -22,6 +25,13 @@ const Direction = {
     UP: 1,
     RIGHT: 2,
     DOWN: 3
+}
+
+const CursorMode = {
+    NORMAL: 0,
+    SELECT: 1,
+    SELECTED: 2,
+    YANKED: 3
 }
 
 // game

@@ -13,7 +13,7 @@ class Jet {
         this.futureState = null;
     }
 
-    draw() {
+    draw(viewSettings) {
         let jetImg;
         switch (this.direction) {
             case Direction.UP:
@@ -29,8 +29,10 @@ class Jet {
                 jetImg = document.getElementById("jetLeft");
                 break;
         }
+        let col = this.col - viewSettings.colOffset;
+        let row = this.row - viewSettings.rowOffset;
         entityCtx.drawImage(
-            jetImg, this.col * TILE_SIZE, this.row * TILE_SIZE);
+            jetImg, col * TILE_SIZE, row * TILE_SIZE);
     }
 
     // returns the coordinate of the shot target or the wall.
@@ -122,7 +124,7 @@ function forEachJet(callback) {
     });
 }
 
-function drawJets() {
+function drawJets(viewSettings) {
     entityCtx.clearRect(0, 0, entityCanvas.width, entityCanvas.height);
-    forEachJet((jet) => jet.draw());
+    forEachJet((jet) => jet.draw(viewSettings));
 }
