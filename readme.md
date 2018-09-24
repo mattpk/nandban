@@ -33,3 +33,15 @@ Space to place / remove Jets.
 Demonstrating adding 0101101<sub>2</sub> + 1101110<sub>2</sub> = 10011011<sub>2</sub>
 (45 + 110 = 155)
 ![7 Bit Adder](https://mattpk.github.io/nandban/gifs/7bitadder.gif)
+
+### Advanced
+
+#### Copy & Paste
+Thanks to [Josh Jung](https://github.com/JoshJung17) for his implementation.
+- 'V' to start/end selection
+- 'Y' to yank selection
+- 'P' to paste selection
+- 'Esc' to stop selection
+
+#### Save & Load
+This functionality will be exposed in the UI soon, but for now you can open the developer console (Ctrl/⌘ + Shift + C) and use the functions `exportToString` and `importFromString(json)` respectively to save and load your boards.
